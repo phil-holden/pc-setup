@@ -1,28 +1,20 @@
-function Install-PowerShellModule {
-    param(
-        [string]
-        [Parameter(Mandatory = $true)]
-        $ModuleName,
+Write-Host "Installing Module: Az"
+Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force -AllowClobber
 
-        [ScriptBlock]
-        [Parameter(Mandatory = $true)]
-        $PostInstall = {}
-    )
+Write-Host "Installing Module: PoshGit"
+Install-Module -Name Posh-Git -Scope CurrentUser -Repository PSGallery -Force
+Import-Module -Name Posh-Git
 
-    if (!(Get-Command -Name $ModuleName -ErrorAction SilentlyContinue)) {
-        Write-Host "Installing $ModuleName"
-        Install-Module -Name $ModuleName -Scope CurrentUser -Confirm $true
-        Import-Module $ModuleName -Confirm
+Write-Host "Installing Module: oh-my-posh"
+Install-Module -Name oh-my-posh -Scope CurrentUser -Repository PSGallery -Force
+Import-Module -Name oh-my-posh
 
-        Invoke-Command -ScriptBlock $PostInstall
-    } else {
-        Write-Host "$ModuleName was already installed, skipping"
-    }
-}
+Write-Host "Installing Module: PSReadLine"
+Install-Module -Name PSReadLine -Scope CurrentUser -Repository PSGallery -Force -AllowPrerelease
+Import-Module -Name PSReadLine
 
-Install-PowerShellModule 'Posh-Git' { Add-PoshGitToProfile -AllHosts }
-Install-PowerShellModule 'oh-my-posh' { }
-Install-PowerShellModule 'PSReadLine' { }
-Install-PowerShellModule 'Az.Tools.Predictor' { }
+Write-Host "Installing Module: Az.Tools.Predictor"
+Install-Module -Name Az.Tools.Predictor -Scope CurrentUser -Repository PSGallery -Force -AllowPrerelease
+Import-Module -Name Az.Tools.Predictor
 
 Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/Microsoft.PowerShell_profile.ps1' -OutFile $PROFILE

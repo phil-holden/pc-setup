@@ -1,5 +1,3 @@
-Set-ExecutionPolicy Bypass -Scope Process -Force; 
-
 function Install-Chocolatey {
     if (-Not $env:ChocolateyInstall) {
         Set-ExecutionPolicy Bypass -Scope Process -Force;
