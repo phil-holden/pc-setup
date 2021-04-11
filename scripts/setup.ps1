@@ -6,34 +6,24 @@ function Install-Chocolatey {
     }
 }
 
-function Install-FromChocolatey {
-    param(
-        [string]
-        [Parameter(Mandatory = $true)]
-        $PackageName
-    )
-
-    choco install $PackageName --yes
-}
-
 Install-Chocolatey
 
-Install-FromChocolatey 'git'
+choco upgrade git --yes
 Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/.gitconfig' -OutFile (Join-Path $env:USERPROFILE '.gitconfig')
 
 
 # install choco packages
 # - general tools
-Install-FromChocolatey '7zip'
-Install-FromChocolatey 'greenshot'
-Install-FromChocolatey 'notepadplusplus'
-Install-FromChocolatey 'zoomit'
-Install-FromChocolatey 'powershell-core'
+choco upgrade 7zip --yes
+choco upgrade greenshot --yes
+choco upgrade notepadplusplus --yes
+choco upgrade zoomit --yes
+choco upgrade powershell-core --yes --pre
 
 # - dev tools
-Install-FromChocolatey 'azure-cli'
-Install-FromChocolatey 'azure-data-studio'
-Install-FromChocolatey 'docker-desktop'
-Install-FromChocolatey 'nuget.commandline'
-Install-FromChocolatey 'terraform'
-Install-FromChocolatey 'vscode'
+choco upgrade azure-cli --yes
+choco upgrade azure-data-studio --yes
+choco upgrade docker-desktop --yes
+choco upgrade nuget.commandline --yes
+choco upgrade terraform --yes
+choco upgrade vscode --yes
