@@ -1,4 +1,4 @@
-## Setup my Windows environment.
+## Setup Windows Environment.
 
 Run with:
 
