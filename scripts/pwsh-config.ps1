@@ -10,7 +10,7 @@ Install-Module -Name oh-my-posh -Scope CurrentUser -Repository PSGallery -Force
 Import-Module -Name oh-my-posh
 
 Write-Host "Installing Module: PSReadLine"
-Install-Module -Name PSReadLine -Scope CurrentUser -Repository PSGallery -Force -AllowPrerelease
+Install-Module -Name PSReadLine -Scope CurrentUser -Repository PSGallery -Force -AllowClobber -AllowPreRelease
 Import-Module -Name PSReadLine
 
 Write-Host "Installing Module: Az.Tools.Predictor"
