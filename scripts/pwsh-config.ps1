@@ -14,7 +14,7 @@ Install-Module -Name PSReadLine -Scope CurrentUser -Repository PSGallery -Force 
 Import-Module -Name PSReadLine
 
 Write-Host "Installing Module: Az.Tools.Predictor"
-Install-Module -Name Az.Tools.Predictor -Scope CurrentUser -Repository PSGallery -Force -AllowPrerelease
+Install-Module -Name Az.Tools.Predictor -Scope CurrentUser -Repository PSGallery -Force -MaximumVersion 0.1.0
 Import-Module -Name Az.Tools.Predictor
 
 Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/Microsoft.PowerShell_profile.ps1' -OutFile $PROFILE
