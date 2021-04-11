@@ -1,43 +1,28 @@
-# install powershell modules
-Write-Host "Installing Module: Az"
-Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force -AllowClobber
+function Install-PowerShellModule {
+    param(
+        [string]
+        [Parameter(Mandatory = $true)]
+        $ModuleName,
 
-Write-Host "Installing Module: oh-my-posh"
-Install-Module -Name oh-my-posh -Scope CurrentUser -Repository PSGallery -Force -AllowPrerelease
+        [ScriptBlock]
+        [Parameter(Mandatory = $true)]
+        $PostInstall = {}
+    )
 
-Write-Host "Installing Module: PowerShellGet"
-Install-Module -Name PowerShellGet -Scope CurrentUser -Repository PSGallery -Force
+    if (!(Get-Command -Name $ModuleName -ErrorAction SilentlyContinue)) {
+        Write-Host "Installing $ModuleName"
+        Install-Module -Name $ModuleName -Scope CurrentUser -Confirm $true
+        Import-Module $ModuleName -Confirm
 
-Write-Host "Installing Module: PSReadline"
-Install-Module -Name PSReadline -Scope CurrentUser -Repository PSGallery -Force -AllowPrerelease
-
-Write-Host "Installing Module: Az.Tools.Predictor"
-Install-Module -Name Az.Tools.Predictor -Scope CurrentUser -Repository PSGallery -Force -AllowPrerelease
-
-# configure powershell profile
-if ($null -eq (Test-Path -Path $profile)) {
-    New-Item -Path $profile -ItemType file -Force
+        Invoke-Command -ScriptBlock $PostInstall
+    } else {
+        Write-Host "$ModuleName was already installed, skipping"
+    }
 }
 
-$myProfile = @(Get-Content -Path $profile)
+Install-PowerShellModule 'Posh-Git' { Add-PoshGitToProfile -AllHosts }
+Install-PowerShellModule 'oh-my-posh' { }
+Install-PowerShellModule 'PSReadLine' { }
+Install-PowerShellModule 'Az.Tools.Predictor' { }
 
-# - oh-my-posh prompt
-$promptConfigured = ($myProfile | ForEach-Object { $_ -Match "Set-PoshPrompt" })
-
-if ($null -eq $promptConfigured) {
-    Write-Host "Configuring Profile: Posh Prompt"
-    Set-Content -Path $profile -Value "`nSet-PoshPrompt -Theme Star"
-}
-
-# - az predictor
-$predictorConfigured = ($myProfile | ForEach-Object { $_ -Match "Az.Tools.Predictor" })
-
-if ($null -eq $predictorConfigured) {
-    Write-Host "Configuring Profile: Predictor"
-    Set-Content -Path $profile -Value "`nImport-Module Az.Tools.Predictor"
-    Set-Content -Path $profile -Value "`nSet-PSReadLineOption -PredictionSource HistoryAndPlugin"
-    Set-Content -Path $profile -Value "`nSet-PSReadLineOption -PredictionViewStyle ListView"
-}
-
-# - reload profile
-. $profile
+Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/Microsoft.PowerShell_profile.ps1' -OutFile $PROFILE
