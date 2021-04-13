@@ -29,8 +29,24 @@ choco upgrade microsoft-windows-terminal --yes --pre
 choco upgrade cascadiacode --yes
 choco upgrade cascadiacodepl --yes
 
-# - dev tools
+# - wsl2 (reboot required)
+Enable-WindowsOptionalFeature -Online -FeatureName $("VirtualMachinePlatform", "Microsoft-Windows-Subsystem-Linux")
 choco upgrade wsl2 --yes
+
+# - configure WSL2 settings
+$wtFolder = Get-ChildItem -Directory -Path (Join-Path $env:LocalAppData 'Packages') -Filter "*Microsoft.WindowsTerminal*"
+Remove-Item -Path (Join-Path $env:LocalAppData 'Packages' $wtFolder.Name 'LocalState') -Force -Recurse
+
+if (-Not (Test-Path -Path (Join-Path $env:USERPROFILE '.terminal'))) {
+    New-Item -ItemType Directory -Path (Join-Path $env:USERPROFILE '.terminal')
+}
+
+New-Item -ItemType SymbolicLink -Path (Join-Path $env:LocalAppData 'Packages' $wtFolder.Name 'LocalState') -Target (Join-Path $env:USERPROFILE '.terminal')
+
+Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/terminalSettings.json' -OutFile (Join-Path $env:USERPROFILE '.terminal/settings.json')
+
+
+# - dev tools
 choco upgrade azure-cli --yes
 choco upgrade azure-data-studio --yes
 choco upgrade docker-desktop --yes
