@@ -13,6 +13,10 @@ Install-Chocolatey
 choco upgrade git --yes
 Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/.gitconfig' -OutFile (Join-Path $env:USERPROFILE '.gitconfig')
 
+if (-Not (Test-Path -Path (Join-Path $env:USERPROFILE '.poshthemes'))) {
+    New-Item -ItemType Directory -Path (Join-Path $env:USERPROFILE '.poshthemes')
+}
+Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/.agnostercustom.omp.json' -OutFile (Join-Path $env:USERPROFILE '.poshthemes/.agnostercustom.omp.json')
 
 # install choco packages
 # - general tools
@@ -32,3 +36,7 @@ choco upgrade docker-desktop --yes
 choco upgrade nuget.commandline --yes
 choco upgrade terraform --yes
 choco upgrade vscode --yes
+
+# install vscode extensions
+refreshenv
+code --install-extension ms-azuretools.vscode-azureterraform
