@@ -19,6 +19,8 @@ choco upgrade greenshot --yes
 choco upgrade notepadplusplus --yes
 choco upgrade zoomit --yes
 choco upgrade powershell-core --yes --pre
+choco upgrade microsoft-windows-terminal --pre 
+choco upgrade cascadiacode
 
 # - dev tools
 choco upgrade azure-cli --yes
