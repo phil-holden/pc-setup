@@ -23,6 +23,7 @@ choco upgrade zoomit --yes
 choco upgrade powershell-core --yes --pre
 choco upgrade microsoft-windows-terminal --yes --pre
 choco upgrade cascadiacode --yes
+choco upgrade cascadiacodepl --yes
 
 # - dev tools
 choco upgrade azure-cli --yes
