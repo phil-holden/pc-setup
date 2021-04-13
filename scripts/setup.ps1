@@ -30,6 +30,7 @@ choco upgrade cascadiacode --yes
 choco upgrade cascadiacodepl --yes
 
 # - dev tools
+choco upgrade wsl2 --yes
 choco upgrade azure-cli --yes
 choco upgrade azure-data-studio --yes
 choco upgrade docker-desktop --yes
