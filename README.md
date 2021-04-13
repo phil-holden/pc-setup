@@ -14,8 +14,5 @@ Run with:
 iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/phil-holden/pc-setup/main/scripts/pwsh-config.ps1'))
 ```
 
-## Manual Setup
-
-- Windows Terminal
-  - Terminal settings in repo
-- [Cascadia Code PL](https://github.com/microsoft/cascadia-code/releases)
+## TODO
+- Windows Terminal settings in repo
