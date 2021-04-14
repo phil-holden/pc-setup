@@ -42,7 +42,7 @@ choco upgrade cascadiacodepl --yes
 Enable-WindowsOptionalFeature -Online -FeatureName $("VirtualMachinePlatform", "Microsoft-Windows-Subsystem-Linux")
 choco upgrade wsl2 --yes
 
-# - configure WSL2 settings
+# - configure Windows Terminal settings
 $wtFolder = Get-ChildItem -Directory -Path (Join-Path $env:LocalAppData 'Packages') -Filter "*Microsoft.WindowsTerminal*"
 Remove-Item -Path (Join-Path $env:LocalAppData 'Packages' $wtFolder.Name 'LocalState') -Force -Recurse
 
