@@ -57,3 +57,4 @@ choco upgrade vscode --yes
 # install vscode extensions
 refreshenv
 code --install-extension ms-azuretools.vscode-azureterraform
+code --install-extension hashicorp.terraform
