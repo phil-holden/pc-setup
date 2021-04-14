@@ -8,14 +8,23 @@ function Install-Chocolatey {
     }
 }
 
+function Create-Directory {
+    param(
+        [string]$Path
+    )
+
+    if (-Not (Test-Path -Path $Path)) {
+        New-Item -ItemType Directory -Path $Path
+    }
+}
+
 Install-Chocolatey
 
 choco upgrade git --yes
 Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/.gitconfig' -OutFile (Join-Path $env:USERPROFILE '.gitconfig')
 
-if (-Not (Test-Path -Path (Join-Path $env:USERPROFILE '.poshthemes'))) {
-    New-Item -ItemType Directory -Path (Join-Path $env:USERPROFILE '.poshthemes')
-}
+Create-Directory -Path (Join-Path $env:USERPROFILE '.poshthemes')
+
 Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/.agnostercustom.omp.json' -OutFile (Join-Path $env:USERPROFILE '.poshthemes/.agnostercustom.omp.json')
 
 # install choco packages
@@ -37,14 +46,11 @@ choco upgrade wsl2 --yes
 $wtFolder = Get-ChildItem -Directory -Path (Join-Path $env:LocalAppData 'Packages') -Filter "*Microsoft.WindowsTerminal*"
 Remove-Item -Path (Join-Path $env:LocalAppData 'Packages' $wtFolder.Name 'LocalState') -Force -Recurse
 
-if (-Not (Test-Path -Path (Join-Path $env:USERPROFILE '.terminal'))) {
-    New-Item -ItemType Directory -Path (Join-Path $env:USERPROFILE '.terminal')
-}
+Create-Directory -Path (Join-Path $env:USERPROFILE '.terminal')
 
 New-Item -ItemType SymbolicLink -Path (Join-Path $env:LocalAppData 'Packages' $wtFolder.Name 'LocalState') -Target (Join-Path $env:USERPROFILE '.terminal')
 
 Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/terminalSettings.json' -OutFile (Join-Path $env:USERPROFILE '.terminal/settings.json')
-
 
 # - dev tools
 choco upgrade azure-cli --yes
