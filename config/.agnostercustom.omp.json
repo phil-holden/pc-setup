@@ -2,12 +2,16 @@
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
   "blocks": [
     {
+      "type": "newline"
+    },
+    {
       "alignment": "right",
       "segments": [
         {
           "type": "az",
-          "style": "powerline",
-          "powerline_symbol": "\uE0B0",
+          "style": "diamond",
+          "leading_diamond": "\uE0B6",
+          "trailing_diamond": "\uE0B4",
           "foreground": "#000000",
           "background": "#9ec3f0",
           "properties": {
@@ -18,13 +22,15 @@
           }
         },
         {
-          "foreground": "#007ACC",
+          "type": "time",
+          "style": "diamond",
+          "leading_diamond": " \uE0B6",
+          "trailing_diamond": "\uE0B4",
+          "foreground": "#000000",
+          "background": "#9ec3f0",
           "properties": {
             "time_format": "15:04:05"
-          },
-          "style": "plain",
-          "type": "time"
-        }
+          }        }
       ],
       "type": "prompt",
       "vertical_offset": -1
