@@ -9,5 +9,8 @@ Set-PSReadLineOption -PredictionViewStyle ListView
 function Run-Terraform { & terraform $args }
 New-Alias -Name tf -Value Run-Terraform -Force -Option AllScope
 
-function Get-MyIp { $(Invoke-WebRequest "https://icanhazip.com").Content }
+function Get-MyIp { 
+    Write-Host "Local IP : " + ([System.Net.DNS]::GetHostAddresses($env:ComputerName) | Where-Object { $_.AddressFamily -eq "InterNetwork" }).IPAddressToString
+    Write-Host "Public IP: " + (Invoke-WebRequest "https://icanhazip.com").Content
+}
 New-Alias -Name myip -Value Get-MyIp -Force -Option AllScope
