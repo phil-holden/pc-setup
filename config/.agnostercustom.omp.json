@@ -20,17 +20,7 @@
             "info_separator": " @ ",
             "prefix": " \uFD03 "
           }
-        },
-        {
-          "type": "time",
-          "style": "diamond",
-          "leading_diamond": " \uE0B6",
-          "trailing_diamond": "\uE0B4",
-          "foreground": "#000000",
-          "background": "#9ec3f0",
-          "properties": {
-            "time_format": "15:04:05"
-          }        }
+        }
       ],
       "type": "prompt",
       "vertical_offset": -1
@@ -42,24 +32,31 @@
       "alignment": "left",
       "segments": [
         {
-          "background": "#ffffff",
-          "foreground": "#100e23",
-          "powerline_symbol": "",
-          "properties": {
-            "folder_icon": "",
-            "folder_separator_icon": "  ",
-            "home_icon": "",
-            "style": "agnoster"
-          },
-          "style": "powerline",
-          "type": "path"
-        },
-        {
           "background": "#95ffa4",
           "foreground": "#193549",
           "powerline_symbol": "",
           "style": "powerline",
           "type": "git"
+        },
+        {
+          "background": "#ffffff",
+          "foreground": "#100e23",
+          "powerline_symbol": "\uE0B0",
+          "properties": {
+            "folder_icon": "\uF115",
+            "folder_separator_icon": "  ",
+            "home_icon": "\uF015",
+            "style": "agnoster_full",
+            "mapped_locations": [
+              [
+                "c:\\code",
+                ".."
+              ]
+            ],
+            "mapped_locations_enabled": true
+          },
+          "style": "powerline",
+          "type": "path"
         }
       ],
       "type": "prompt"
