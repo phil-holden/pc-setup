@@ -34,24 +34,34 @@ choco upgrade greenshot --yes
 choco upgrade notepadplusplus --yes
 choco upgrade zoomit --yes
 choco upgrade powershell-core --yes --pre
-choco upgrade microsoft-windows-terminal --yes --pre
-choco upgrade gsudo --yes
 choco upgrade cascadiacode --yes
 choco upgrade cascadiacodepl --yes
 
-# - wsl2 (reboot required)
-Enable-WindowsOptionalFeature -Online -FeatureName $("VirtualMachinePlatform", "Microsoft-Windows-Subsystem-Linux")
-choco upgrade wsl2 --yes
+$windowsBuild = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name "ReleaseId").ReleaseId
 
-# - configure Windows Terminal settings
-$wtFolder = Get-ChildItem -Directory -Path (Join-Path $env:LocalAppData 'Packages') -Filter "*Microsoft.WindowsTerminal*"
-Remove-Item -Path (Join-Path $env:LocalAppData 'Packages' $wtFolder.Name 'LocalState') -Force -Recurse
+# if we're on a 'decent' Windows build we can run WindowsTerminal and WSL2
+if ($windowsBuild -ge 1903) {
+    # - wsl2 (reboot required)
+    Enable-WindowsOptionalFeature -Online -FeatureName $("VirtualMachinePlatform", "Microsoft-Windows-Subsystem-Linux")
+    choco upgrade wsl2 --yes
 
-Create-Directory -Path (Join-Path $env:USERPROFILE '.terminal')
+    # - install / configure Windows Terminal
+    choco upgrade gsudo --yes
+    choco upgrade microsoft-windows-terminal --yes --pre
 
-New-Item -ItemType SymbolicLink -Path (Join-Path $env:LocalAppData 'Packages' $wtFolder.Name 'LocalState') -Target (Join-Path $env:USERPROFILE '.terminal')
+    $wtFolder = Get-ChildItem -Directory -Path (Join-Path $env:LocalAppData 'Packages') -Filter "*Microsoft.WindowsTerminalPreview*"
+    Remove-Item -Path (Join-Path $env:LocalAppData "Packages/$($wtFolder.Name)/LocalState") -Force -Recurse
 
-Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/terminalSettings.json' -OutFile (Join-Path $env:USERPROFILE '.terminal/settings.json')
+    Create-Directory -Path (Join-Path $env:USERPROFILE '.terminal')
+
+    New-Item -ItemType SymbolicLink -Path (Join-Path $env:LocalAppData "Packages/$($wtFolder.Name)/LocalState") -Target (Join-Path $env:USERPROFILE '.terminal')
+
+    Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/terminalSettings.json' -OutFile (Join-Path $env:USERPROFILE '.terminal/settings.json')
+}
+else {
+    # on an older Windows build we'll drop back to running 'cmder'
+    choco upgrade cmder --yes
+}
 
 # - dev tools
 choco upgrade azure-cli --yes
