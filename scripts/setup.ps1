@@ -36,6 +36,7 @@ choco upgrade zoomit --yes
 choco upgrade powershell-core --yes --pre
 choco upgrade cascadiacode --yes
 choco upgrade cascadiacodepl --yes
+choco upgrade cascadia-code-nerd-font --yes
 
 $windowsBuild = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name "ReleaseId").ReleaseId
 
