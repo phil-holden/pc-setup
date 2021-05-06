@@ -15,7 +15,7 @@
           "foreground": "#000000",
           "background": "#9ec3f0",
           "properties": {
-            "display_id": true,
+            "display_id": false,
             "display_name": true,
             "info_separator": " @ ",
             "prefix": " \uFD03 "
