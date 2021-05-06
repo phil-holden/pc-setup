@@ -35,6 +35,7 @@ choco upgrade notepadplusplus --yes
 choco upgrade zoomit --yes
 choco upgrade powershell-core --yes --pre
 choco upgrade microsoft-windows-terminal --yes --pre
+choco upgrade gsudo --yes
 choco upgrade cascadiacode --yes
 choco upgrade cascadiacodepl --yes
 
@@ -62,8 +63,9 @@ choco upgrade vscode --yes
 
 # install vscode extensions
 refreshenv
-code --install-extension ms-azuretools.vscode-azureterraform
 code --install-extension hashicorp.terraform
 code --install-extension ms-vscode.powershell
 code --install-extension eamodio.gitlens
-code --install-extension GitHub.github-vscode-theme
+code --install-extension github.github-vscode-theme
+code --install-extension ms-dotnettools.csharp
+code --install-extension msazurermtools.azurerm-vscode-tools
