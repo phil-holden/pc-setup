@@ -40,6 +40,11 @@ choco upgrade cascadia-code-nerd-font --yes
 
 $windowsBuild = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name "ReleaseId").ReleaseId
 
+# add pwsh preview to the path
+if (-Not ($env:Path -like "*C:\Program Files\PowerShell\7-preview*")) {
+    [System.Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files\PowerShell\7-preview", "User")
+}
+
 # if we're on a 'decent' Windows build we can run WindowsTerminal and WSL2
 if ($windowsBuild -ge 1903) {
     # - wsl2 (reboot required)
@@ -62,6 +67,10 @@ if ($windowsBuild -ge 1903) {
 else {
     # on an older Windows build we'll drop back to running 'cmder'
     choco upgrade cmder --yes
+
+    refreshenv
+
+    Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/cmderSettings.xml' -OutFile (Join-Path $env:ConEmuDir 'ConEmu.xml')
 }
 
 # - dev tools
