@@ -73,7 +73,7 @@
             "always_enabled": true,
             "display_exit_code": false,
             "error_color": "#BF616A",
-            "prefix": "❯"
+            "prefix": "\uF105"
           },
           "style": "plain",
           "type": "exit"
