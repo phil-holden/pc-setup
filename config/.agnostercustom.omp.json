@@ -5,30 +5,6 @@
       "type": "newline"
     },
     {
-      "alignment": "right",
-      "segments": [
-        {
-          "type": "az",
-          "style": "diamond",
-          "leading_diamond": "\uE0B6",
-          "trailing_diamond": "\uE0B4",
-          "foreground": "#000000",
-          "background": "#9ec3f0",
-          "properties": {
-            "display_id": false,
-            "display_name": true,
-            "info_separator": " @ ",
-            "prefix": " \uFD03 "
-          }
-        }
-      ],
-      "type": "prompt",
-      "vertical_offset": -1
-    },
-    {
-      "type": "newline"
-    },
-    {
       "alignment": "left",
       "segments": [
         {
@@ -73,7 +49,7 @@
             "always_enabled": true,
             "display_exit_code": false,
             "error_color": "#BF616A",
-            "prefix": "\uF105"
+            "prefix": "❯"
           },
           "style": "plain",
           "type": "exit"
