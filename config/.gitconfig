@@ -6,22 +6,22 @@
 [alias]
 	co  = checkout
 
-	# checkout master/main
-	com = "!f() { git checkout \"$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)\"; }; f"
+	# checkout default branch
+	cod = "!f() { git checkout \"$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)\"; }; f"
 
 	# commit all
 	cam = "!f() { git add .; git commit -am \"${1}\"; }; f"
 
 	# commit all, rebase from master, and push
-	cap = "!f() { git add .; git commit -am \"${1}\"; git rbm; git push -u origin HEAD; }; f"
+	cap = "!f() { git add .; git commit -am \"${1}\"; git rbd; git push -u origin HEAD; }; f"
 	
 	# add all
 	aa  = add .
 # Get the current default branch master or main; git remote show origin | grep 'HEAD branch' | cut -d' ' -f5
 # https://davidwalsh.name/get-default-branch-name
 	
-	# rebase from master
-	rbm = "!f() { git fetch origin; git rebase origin/\"$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)\"; }; f"
+	# rebase from default branch
+	rbd = "!f() { git fetch origin; git rebase origin/\"$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)\"; }; f"
 	
 	# create branch and checkout 
 	bco = checkout -b
@@ -29,8 +29,8 @@
 	# delete branch
 	bd  = branch -D
 	
-	# rebase from master and push (no commit)
-	rbp = !git rbm && git push -u origin HEAD
+	# rebase from default and push (no commit)
+	rbp = !git rbd && git push -u origin HEAD
 	
 	# create new pr (added by cli?)
 	pr = "!f() { exec az.cmd repos pr \"$@\"; }; f"
