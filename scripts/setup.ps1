@@ -36,15 +36,10 @@ choco upgrade cascadia-code-nerd-font --yes
 choco upgrade drawio --yes
 choco upgrade greenshot --yes
 choco upgrade notepadplusplus --yes
-choco upgrade powershell-core --yes --pre
+choco upgrade powershell-core --yes
 choco upgrade zoomit --yes
 
 $windowsBuild = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name "ReleaseId").ReleaseId
-
-# add pwsh preview to the path
-if (-Not ($env:Path -like "*C:\Program Files\PowerShell\7-preview*")) {
-    [System.Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files\PowerShell\7-preview", "User")
-}
 
 # if we're on a 'decent' Windows build we can run WindowsTerminal and WSL2
 if ($windowsBuild -ge 1903) {
@@ -53,14 +48,7 @@ if ($windowsBuild -ge 1903) {
     choco upgrade wsl2 --yes
 
     # - install / configure Windows Terminal
-    choco upgrade microsoft-windows-terminal --yes --pre
-
-    $wtFolder = Get-ChildItem -Directory -Path (Join-Path $env:LocalAppData 'Packages') -Filter "*Microsoft.WindowsTerminalPreview*"
-    Remove-Item -Path (Join-Path $env:LocalAppData "Packages/$($wtFolder.Name)/LocalState") -Force -Recurse
-
-    Create-Directory -Path (Join-Path $env:USERPROFILE '.terminal')
-
-    New-Item -ItemType SymbolicLink -Path (Join-Path $env:LocalAppData "Packages/$($wtFolder.Name)/LocalState") -Target (Join-Path $env:USERPROFILE '.terminal')
+    choco upgrade microsoft-windows-terminal --yes
 
     Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/terminalSettings.json' -OutFile (Join-Path $env:USERPROFILE '.terminal/settings.json')
 }

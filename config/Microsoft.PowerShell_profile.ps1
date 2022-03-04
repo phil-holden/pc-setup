@@ -21,3 +21,8 @@ function Open-ExplorerHere {
     & explorer .
 }
 New-Alias -Name ex -Value Open-ExplorerHere -Force -Option AllScope
+
+function Invoke-GitPull {
+    & git pull
+}
+New-Alias -Name gp -Value Invoke-GitPull -Force -Option AllScope
