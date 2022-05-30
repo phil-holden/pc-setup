@@ -26,3 +26,9 @@ function Invoke-GitPull {
     & git pull
 }
 New-Alias -Name gp -Value Invoke-GitPull -Force -Option AllScope
+
+function Run-Podman {
+    Write-Host "This is an alias for PodMan" -ForegroundColor Green
+    & podman $args
+}
+New-Alias -Name docker -Value Run-Podman -Force -Option AllScope
