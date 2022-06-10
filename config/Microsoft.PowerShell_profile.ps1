@@ -1,6 +1,6 @@
+oh-my-posh --init --shell pwsh --config ~/.poshthemes/.agnostercustom.omp.json | Invoke-Expression
+
 Import-Module -Name posh-git
-Import-Module -Name oh-my-posh
-Set-PoshPrompt -Theme ~/.poshthemes/.agnostercustom.omp.json
 
 Import-Module -Name Az.Tools.Predictor
 Set-PSReadLineOption -PredictionSource HistoryAndPlugin

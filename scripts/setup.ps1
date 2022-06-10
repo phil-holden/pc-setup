@@ -1,3 +1,10 @@
+[CmdletBinding()]
+param (
+    [Parameter()]
+    [Switch]
+    $UseLocalConfig
+)
+
 function Install-Chocolatey {
     if (-Not $env:ChocolateyInstall) {
         Set-ExecutionPolicy Bypass -Scope Process -Force;
@@ -21,11 +28,21 @@ function Create-Directory {
 Install-Chocolatey
 
 choco upgrade git --yes
-Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/.gitconfig' -OutFile (Join-Path $env:USERPROFILE '.gitconfig')
+if ($UseLocalConfig) {
+    Copy-Item -Path "$PSScriptRoot/../config/.gitconfig" -Destination (Join-Path $env:USERPROFILE '.gitconfig')
+}
+else {
+    Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/.gitconfig' -OutFile (Join-Path $env:USERPROFILE '.gitconfig')
+}
 
 Create-Directory -Path (Join-Path $env:USERPROFILE '.poshthemes')
 
-Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/.agnostercustom.omp.json' -OutFile (Join-Path $env:USERPROFILE '.poshthemes/.agnostercustom.omp.json')
+if ($UseLocalConfig) {
+    Copy-Item -Path "$PSScriptRoot/../config/.agnostercustom.omp.json" -Destination (Join-Path $env:USERPROFILE '.poshthemes/.agnostercustom.omp.json')
+}
+else {
+    Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/.agnostercustom.omp.json' -OutFile (Join-Path $env:USERPROFILE '.poshthemes/.agnostercustom.omp.json')
+}
 
 # install choco packages
 # - general tools
@@ -50,7 +67,12 @@ if ($windowsBuild -ge 1903) {
     # - install / configure Windows Terminal
     choco upgrade microsoft-windows-terminal --yes
 
-    Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/terminalSettings.json' -OutFile (Join-Path $env:USERPROFILE '.terminal/settings.json')
+    if ($UseLocalConfig) {
+        Copy-Item -Path "$PSScriptRoot/../config/terminalSettings.json" -Destination (Join-Path $env:USERPROFILE '.terminal/settings.json')
+    }
+    else {
+        Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/terminalSettings.json' -OutFile (Join-Path $env:USERPROFILE '.terminal/settings.json')
+    }
 }
 else {
     # on an older Windows build we'll drop back to running 'cmder'
@@ -58,7 +80,12 @@ else {
 
     refreshenv
 
-    Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/cmderSettings.xml' -OutFile (Join-Path $env:ConEmuDir 'ConEmu.xml')
+    if ($UseLocalConfig) {
+        Copy-Item -Path "$PSScriptRoot/../config/cmderSettings.xml" -Desintation (Join-Path $env:ConEmuDir 'ConEmu.xml')
+    }
+    else {
+        Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/cmderSettings.xml' -OutFile (Join-Path $env:ConEmuDir 'ConEmu.xml')
+    }
 }
 
 # - dev tools
@@ -66,12 +93,13 @@ choco upgrade azure-cli --yes
 choco upgrade azure-data-studio --yes
 choco upgrade azure-functions-core-tools --yes
 choco upgrade azurestorageexplorer --yes
-choco upgrade docker-desktop --yes
+# choco upgrade docker-desktop --yes
 choco upgrade dotnetcore-sdk --yes
 choco upgrade nuget.commandline --yes
 choco upgrade postman --yes
 choco upgrade terraform --yes
 choco upgrade vscode --yes
+choco upgrade oh-my-posh --yes
 
 # install vscode extensions
 refreshenv
