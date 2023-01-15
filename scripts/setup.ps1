@@ -90,12 +90,12 @@ else {
 
 # - dev tools
 choco upgrade azure-cli --yes
-choco upgrade azure-data-studio --yes
-choco upgrade azure-functions-core-tools --yes
+# choco upgrade azure-data-studio --yes
+# choco upgrade azure-functions-core-tools --yes
 choco upgrade azurestorageexplorer --yes
 # choco upgrade docker-desktop --yes
 choco upgrade dotnetcore-sdk --yes
-choco upgrade nuget.commandline --yes
+# choco upgrade nuget.commandline --yes
 choco upgrade postman --yes
 choco upgrade terraform --yes
 choco upgrade vscode --yes
