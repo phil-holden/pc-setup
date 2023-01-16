@@ -1,30 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
   "blocks": [
-    // {
-    //   "type": "newline"
-    // },
-    // {
-    //   "alignment": "right",
-    //   "segments": [
-    //     {
-    //       "type": "az",
-    //       "style": "diamond",
-    //       "leading_diamond": "\uE0B6",
-    //       "trailing_diamond": "\uE0B4",
-    //       "foreground": "#000000",
-    //       "background": "#9ec3f0",
-    //       "properties": {
-    //         "display_id": false,
-    //         "display_name": true,
-    //         "info_separator": " @ ",
-    //         "prefix": " \uFD03 "
-    //       }
-    //     }
-    //   ],
-    //   "type": "prompt",
-    //   "vertical_offset": -1
-    // },
     {
       "type": "newline"
     },
@@ -34,26 +10,30 @@
         {
           "background": "#95ffa4",
           "foreground": "#193549",
-          "powerline_symbol": "",
+          "powerline_symbol": "\ue0b0",
+          "properties": {
+            "template": " {{ .HEAD }} {{ .BranchStatus }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Staging.Changed) (.Working.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0}} \uf692 {{ .StashCount }}{{ end }}{{ if gt .WorktreeCount 0}} \uf1bb {{ .WorktreeCount }}{{ end }} "
+          },
           "style": "powerline",
           "type": "git"
         },
         {
           "background": "#ffffff",
           "foreground": "#100e23",
-          "powerline_symbol": "\uE0B0",
+          "powerline_symbol": "\ue0b0",
           "properties": {
-            "folder_icon": "\uF115",
-            "folder_separator_icon": "  ",
-            "home_icon": "\uF015",
-            "style": "agnoster_full",
+            "folder_icon": "\uf115",
+            "folder_separator_icon": " \ue0b1 ",
+            "home_icon": "\uf015",
             "mapped_locations": [
               [
                 "c:\\code",
                 ".."
               ]
             ],
-            "mapped_locations_enabled": true
+            "mapped_locations_enabled": true,
+            "style": "agnoster_full",
+            "template": " {{ .Path }} "
           },
           "style": "powerline",
           "type": "path"
@@ -69,11 +49,12 @@
       "segments": [
         {
           "foreground": "#B48EAD",
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}#BF616A{{ end }}"
+          ],
           "properties": {
             "always_enabled": true,
-            "display_exit_code": false,
-            "error_color": "#BF616A",
-            "prefix": "❯"
+            "template": "\u276f "
           },
           "style": "plain",
           "type": "exit"
@@ -82,5 +63,6 @@
       "type": "prompt"
     }
   ],
-  "final_space": true
+  "final_space": true,
+  "version": 1
 }

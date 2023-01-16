@@ -10,7 +10,7 @@ function Install-Chocolatey {
         Set-ExecutionPolicy Bypass -Scope Process -Force;
         [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072;
         Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-        
+
         refreshenv
     }
 }
@@ -55,6 +55,7 @@ choco upgrade greenshot --yes
 choco upgrade notepadplusplus --yes
 choco upgrade powershell-core --yes
 choco upgrade zoomit --yes
+choco install oh-my-posh
 
 $windowsBuild = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name "ReleaseId").ReleaseId
 
@@ -109,3 +110,7 @@ code --install-extension eamodio.gitlens
 code --install-extension github.github-vscode-theme
 code --install-extension ms-dotnettools.csharp
 code --install-extension msazurermtools.azurerm-vscode-tools
+code --install-extension ms-azure-devops.azure-pipelines
+code --install-extension ms-dotnettools.csharp
+code --install-extension msazurermtools.azurerm-vscode-tools
+code --install-extension redhat.vscode-yaml
