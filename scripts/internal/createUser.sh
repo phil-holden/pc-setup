@@ -15,5 +15,6 @@ usermod -aG sudo ${USERNAME}
 # ensure no password is set
 passwd -d ${USERNAME}
 
+# set wsl default user
 sudo echo "[user]" >> /etc/wsl.conf
 sudo echo "default=${USERNAME}" >> /etc/wsl.conf
