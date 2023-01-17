@@ -13,5 +13,5 @@ if [[ ! -f ".zshrc" ]]; then
 fi
 
 if [[ ! -f ".oh-my-post/custom/themes/agnoster.zsh-theme" ]]; then
-    curl https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/agnoster.zsh-theme --silent > .oh-my-posh/custom/themes/agnoster.zsh-theme
+    curl https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/agnoster.zsh-theme --silent > .oh-my-zsh/custom/themes/agnoster.zsh-theme
 fi
