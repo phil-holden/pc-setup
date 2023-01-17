@@ -2,8 +2,16 @@
 
 set -euo pipefail
 
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+cd ~
 
-curl https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/.zshrc --output .zshrc
+if [[ ! -d ".oh-my-zsh" ]]; then
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
 
-curl https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/agnoster.zsh-theme --output ./.oh-my-posh/custom/themese/agnoster.zsh-theme
+if [[ ! -f ".zshrc" ]]; then
+    curl https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/.zshrc --silent >  .zshrc
+fi
+
+if [[ ! -f ".oh-my-post/custom/themes/agnoster.zsh-theme" ]]; then
+    curl https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/agnoster.zsh-theme --silent > .oh-my-posh/custom/themes/agnoster.zsh-theme
+fi
