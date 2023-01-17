@@ -68,11 +68,14 @@ if ($windowsBuild -ge 1903) {
     # - install / configure Windows Terminal
     choco upgrade microsoft-windows-terminal --yes
 
+    $destination = "$($env:LOCALAPPDATA)/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState"
     if ($UseLocalConfig) {
-        Copy-Item -Path "$PSScriptRoot/../config/terminalSettings.json" -Destination (Join-Path $env:USERPROFILE '.terminal/settings.json')
+        Copy-Item -Path "$PSScriptRoot/../config/terminalSettings.json" -Destination "$destination/settings.json"
+        Copy-Item -Path "$PSScriptRoot/../config/terminalState.json" -Destination "$destination/state.json"
     }
     else {
-        Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/terminalSettings.json' -OutFile (Join-Path $env:USERPROFILE '.terminal/settings.json')
+        Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/terminalSettings.json' -OutFile "$destination/settings.json"
+        Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/terminalState.json' -OutFile "$destination/state.json"
     }
 }
 else {
