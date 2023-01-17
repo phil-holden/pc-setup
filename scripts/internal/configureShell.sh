@@ -10,6 +10,10 @@ fi
 
 curl https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/.zshrc --silent >  .zshrc
 
-if [[ ! -f ".oh-my-post/custom/themes/agnoster.zsh-theme" ]]; then
+if [[ ! -f ".oh-my-zsh/custom/themes/agnoster.zsh-theme" ]]; then
     curl https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/agnoster.zsh-theme --silent > .oh-my-zsh/custom/themes/agnoster.zsh-theme
+fi
+
+if [[ ! -f ".oh-my-zsh/custom/alias.zsh" ]]; then
+    curl https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/alias.zsh --silent > .oh-my-zsh/custom/alias.zsh
 fi
