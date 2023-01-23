@@ -14,10 +14,10 @@ wsl -d Ubuntu -u root bash -ic "apt update; apt upgrade -y; apt autoremove -y"
 
 wsl -d Ubuntu -u root bash -ic "./scripts/createUser.sh $Username"
 
-wsl -d Ubuntu -u $Username bash -ic "./installShell.sh"
+wsl -d Ubuntu -u $Username bash -ic "./scripts/installShell.sh"
 
-wsl -d Ubuntu -u $Username bash -ic "./configureShell.sh"
+wsl -d Ubuntu -u $Username bash -ic "./scripts/configureShell.sh"
 
-wsl -d Ubuntu -u $Username bash -ic "./installTools.sh"
+wsl -d Ubuntu -u $Username bash -ic "./scripts/installTools.sh"
 
 rm ./scripts -Recurse -Force
