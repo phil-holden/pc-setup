@@ -117,3 +117,4 @@ code --install-extension ms-azure-devops.azure-pipelines
 code --install-extension ms-dotnettools.csharp
 code --install-extension msazurermtools.azurerm-vscode-tools
 code --install-extension redhat.vscode-yaml
+code --install-extension ms-vscode-remote.remote-wsl
