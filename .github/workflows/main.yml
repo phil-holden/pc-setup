@@ -1,0 +1,12 @@
+name: Publish Release (On Release)
+on:
+  release:
+    types:
+      - released
+
+jobs:
+  publish:
+    uses: octo-org/example-repo/.github/workflows/reusable-workflow.yml@main
+    with:
+      release_name: ${{ github.event.release.name }}
+      source_tarball_url: ${{ github.event.release.tarball_url }}
