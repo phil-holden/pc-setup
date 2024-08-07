@@ -37,7 +37,7 @@ jobs:
 
             az storage blob upload \
               --file $filename \
-              --account_name $STORAGE_ACCOUNT_NAME \
+              --account-name $STORAGE_ACCOUNT_NAME \
               --container bedrock \
               --name $RELEASE_NAME
         env:
