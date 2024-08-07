@@ -35,4 +35,4 @@ jobs:
         env:
           SRC_TARBALL_URI: ${{ github.event.release.tarball_url }}
           RELEASE_NAME: ${{ github.event.release.name }}
-          STORAGE_ACCOUNT_NAME: ${{ }}
+          STORAGE_ACCOUNT_NAME: ${{ variables.STORAGE_ACCOUNT_NAME }}
