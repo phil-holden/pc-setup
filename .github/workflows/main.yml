@@ -6,7 +6,7 @@ on:
 
 jobs:
   publish:
-    uses: octo-org/example-repo/.github/workflows/reusable-workflow.yml@main
+    uses: .github/workflows/publish-release.yml
     with:
       release_name: ${{ github.event.release.name }}
       source_tarball_url: ${{ github.event.release.tarball_url }}
