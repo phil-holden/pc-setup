@@ -5,6 +5,9 @@ on:
       - released
       - edited
 
+permissions:
+  id-token: write
+
 jobs:
   deployment:
     environment: debug
