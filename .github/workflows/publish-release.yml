@@ -30,7 +30,7 @@ jobs:
       - name: "Publish Release"
         uses: azure/cli@v2
         with:
-          script: |
+          inlineScript: |
             filename=$RELEASE_NAME.tar.gz
 
             wget -O $filename $SRC_TARBALL_URI
