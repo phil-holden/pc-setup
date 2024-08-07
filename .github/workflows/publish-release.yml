@@ -36,6 +36,7 @@ jobs:
             wget -O $filename $SRC_TARBALL_URI
 
             az storage blob upload \
+              --auth-mode login \
               --file $filename \
               --account-name $STORAGE_ACCOUNT_NAME \
               --container bedrock \
