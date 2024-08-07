@@ -1,15 +1,9 @@
-name: Publish Release
+name: Publish Release (On Release)
 on:
-  workflow_call:
-    inputs:
-      release_name:
-        description: "Release Name"
-        required: true
-        type: string
-      source_tarball_url:
-        description: "Release Name"
-        required: true
-        type: string
+  release:
+    types:
+      - released
+      - edited
 
 jobs:
   deployment:
@@ -39,6 +33,6 @@ jobs:
               --container bedrock \
               --name $RELEASE_NAME
         env:
-          SRC_TARBALL_URI: ${{ inputs.source_tarball_url }}
-          RELEASE_NAME: ${{ inputs.release_name }}
+          SRC_TARBALL_URI: ${{ github.event.release.tarball_url }}
+          RELEASE_NAME: ${{ github.event.release.name }}
           STORAGE_ACCOUNT_NAME: ${{ }}
