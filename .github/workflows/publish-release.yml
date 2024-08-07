@@ -11,9 +11,13 @@ permissions:
 
 jobs:
   deployment:
-    environment: debug
     name: Publish
+    environment: debug
     runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
       - name: "Az Login"
