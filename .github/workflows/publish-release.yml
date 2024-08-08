@@ -49,6 +49,8 @@ jobs:
 
           az storage account show -n $STORAGE_ACCOUNT_NAME --query networkRuleSet
 
+          sleep 30s
+
           az storage blob upload \
             --auth-mode login \
             --file $filename \
