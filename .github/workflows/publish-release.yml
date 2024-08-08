@@ -32,12 +32,10 @@ jobs:
           echo "agentIP=$agentIP" >> "$GITHUB_ENV" 
 
           az storage account network-rule add \
-            --resource-group $STORAGE_ACCOUNT_RG \
             --account-name $STORAGE_ACCOUNT_NAME \
             --ip-address $agentIP \
             --output none
         env:
-          STORAGE_ACCOUNT_RG: ${{ vars.STORAGE_ACCOUNT_RG }}
           STORAGE_ACCOUNT_NAME: ${{ vars.STORAGE_ACCOUNT_NAME }}
 
       - name: "Publish Release"
@@ -52,14 +50,12 @@ jobs:
           az storage blob upload \
             --auth-mode login \
             --file $filename \
-            --resource-group $STORAGE_ACCOUNT_RG \
             --account-name $STORAGE_ACCOUNT_NAME \
             --container $STORAGE_CONTAINER_NAME \
             --name $filename
         env:
           SRC_TARBALL_URI: ${{ github.event.release.tarball_url }}
           RELEASE_NAME: ${{ github.event.release.name }}
-          STORAGE_ACCOUNT_RG: ${{ vars.STORAGE_ACCOUNT_RG }}
           STORAGE_ACCOUNT_NAME: ${{ vars.STORAGE_ACCOUNT_NAME }}
           STORAGE_CONTAINER_NAME: ${{ vars.STORAGE_CONTAINER_NAME }}
 
@@ -69,11 +65,9 @@ jobs:
           agentIP=$(curl -s https://api.ipify.org/)
 
           az storage account network-rule remove \
-            --resource-group $STORAGE_ACCOUNT_RG \
             --account-name $STORAGE_ACCOUNT_NAME \
             --ip-address $agentIP \
             --output none
         env:
-          STORAGE_ACCOUNT_RG: ${{ vars.STORAGE_ACCOUNT_RG }}
           STORAGE_ACCOUNT_NAME: ${{ vars.STORAGE_ACCOUNT_NAME }}
 
