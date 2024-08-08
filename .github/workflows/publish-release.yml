@@ -36,8 +36,8 @@ jobs:
 
           az storage account network-rule add \
             --account-name $STORAGE_ACCOUNT_NAME \
-            --ip-address $agentIP
-
+            --ip-address $agentIP \
+            --output none
         env:
           STORAGE_ACCOUNT_NAME: ${{ vars.STORAGE_ACCOUNT_NAME }}
 
@@ -46,6 +46,8 @@ jobs:
           filename=$RELEASE_NAME.tar.gz
 
           wget -O $filename $SRC_TARBALL_URI
+
+          az storage account show -n $STORAGE_ACCOUNT_NAME --query networkRuleSet
 
           az storage blob upload \
             --auth-mode login \
@@ -63,9 +65,10 @@ jobs:
         run: |
           agentIP=$(curl -s https://api.ipify.org/)
 
-          az storage account network-rule add \
+          az storage account network-rule remove \
             --account-name $STORAGE_ACCOUNT_NAME \
-            --ip-address $agentIP
+            --ip-address $agentIP \
+            --output none
         env:
           STORAGE_ACCOUNT_NAME: ${{ vars.STORAGE_ACCOUNT_NAME }}
 
