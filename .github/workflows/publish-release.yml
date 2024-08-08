@@ -28,29 +28,27 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: "Publish Release"
-        uses: azure/cli@v2
-        with:
-          inlineScript: |
-            filename=$RELEASE_NAME.tar.gz
+        run: |
+          filename=$RELEASE_NAME.tar.gz
 
-            wget -O $filename $SRC_TARBALL_URI
+          wget -O $filename $SRC_TARBALL_URI
 
-            agentIP=$(curl -s https://api.ipify.org/)
+          agentIP=$(curl -s https://api.ipify.org/)
 
-            az storage account network-rule add \
-              --account-name $STORAGE_ACCOUNT_NAME \
-              --ip-address $agentIP
+          az storage account network-rule add \
+            --account-name $STORAGE_ACCOUNT_NAME \
+            --ip-address $agentIP
 
-            az storage blob upload \
-              --auth-mode login \
-              --file $filename \
-              --account-name $STORAGE_ACCOUNT_NAME \
-              --container bedrock \
-              --name $RELEASE_NAME
+          az storage blob upload \
+            --auth-mode login \
+            --file $filename \
+            --account-name $STORAGE_ACCOUNT_NAME \
+            --container bedrock \
+            --name $RELEASE_NAME
 
-            az storage account network-rule remove \
-              --account-name $STORAGE_ACCOUNT_NAME \
-              --ip-address $agentIP
+          az storage account network-rule remove \
+            --account-name $STORAGE_ACCOUNT_NAME \
+            --ip-address $agentIP
         env:
           SRC_TARBALL_URI: ${{ github.event.release.tarball_url }}
           RELEASE_NAME: ${{ github.event.release.name }}
