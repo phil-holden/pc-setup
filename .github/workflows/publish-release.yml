@@ -27,19 +27,25 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      - name: Add AgentIP to Storage Account Firewall
+        run: |
+          agentIP=$(curl -s https://api.ipify.org/)
+
+          echo "agentIP: $agentIP"
+          echo "agentIP=$agentIP" >> "$GITHUB_ENV" # save value for remove task
+
+          az storage account network-rule add \
+            --account-name $STORAGE_ACCOUNT_NAME \
+            --ip-address $agentIP
+
+        env:
+          STORAGE_ACCOUNT_NAME: ${{ vars.STORAGE_ACCOUNT_NAME }}
+
       - name: "Publish Release"
         run: |
           filename=$RELEASE_NAME.tar.gz
 
           wget -O $filename $SRC_TARBALL_URI
-
-          agentIP=$(curl -s https://api.ipify.org/)
-
-          echo "agentIP: $agentIP"
-
-          az storage account network-rule add \
-            --account-name $STORAGE_ACCOUNT_NAME \
-            --ip-address $agentIP
 
           az storage blob upload \
             --auth-mode login \
@@ -47,11 +53,19 @@ jobs:
             --account-name $STORAGE_ACCOUNT_NAME \
             --container bedrock \
             --name $RELEASE_NAME
-
-          az storage account network-rule remove \
-            --account-name $STORAGE_ACCOUNT_NAME \
-            --ip-address $agentIP
         env:
           SRC_TARBALL_URI: ${{ github.event.release.tarball_url }}
           RELEASE_NAME: ${{ github.event.release.name }}
           STORAGE_ACCOUNT_NAME: ${{ vars.STORAGE_ACCOUNT_NAME }}
+
+      - name: Remove AgentIP from Storage Account Firewall
+        if: ${{ always() }}
+        run: |
+          agentIP=$(curl -s https://api.ipify.org/)
+
+          az storage account network-rule add \
+            --account-name $STORAGE_ACCOUNT_NAME \
+            --ip-address $agentIP
+        env:
+          STORAGE_ACCOUNT_NAME: ${{ vars.STORAGE_ACCOUNT_NAME }}
+
