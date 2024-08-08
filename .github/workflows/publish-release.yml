@@ -35,6 +35,8 @@ jobs:
 
           agentIP=$(curl -s https://api.ipify.org/)
 
+          echo "agentIP: $agentIP"
+
           az storage account network-rule add \
             --account-name $STORAGE_ACCOUNT_NAME \
             --ip-address $agentIP
