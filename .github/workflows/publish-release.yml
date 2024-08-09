@@ -60,6 +60,7 @@ jobs:
           az storage blob upload \
             --auth-mode login \
             --file $filename \
+            --overwrite true \
             --account-name $STORAGE_ACCOUNT_NAME \
             --container $containerName \
             --name $filename \
