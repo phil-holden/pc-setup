@@ -43,7 +43,7 @@ jobs:
       - name: "Publish Release"
         run: |
           filename=${GITHUB_REPOSITORY#*/}.tar.gz
-          containerName=artifacts
+          containerName=release-artifacts
 
           wget -O $filename $SRC_TARBALL_URI
 
@@ -60,7 +60,7 @@ jobs:
             --auth-mode login \
             --file $filename \
             --account-name $STORAGE_ACCOUNT_NAME \
-            --container release-artifacts \
+            --container $containerName \
             --name $filename
         env:
           SRC_TARBALL_URI: ${{ github.event.release.tarball_url }}
