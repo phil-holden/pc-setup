@@ -34,17 +34,27 @@ jobs:
             --account-name $STORAGE_ACCOUNT_NAME \
             --ip-address $agentIP \
             --output none
+
+          # give the firewall time to update
+          sleep 30s
         env:
           STORAGE_ACCOUNT_NAME: ${{ vars.STORAGE_ACCOUNT_NAME }}
 
       - name: "Publish Release"
         run: |
           filename=${GITHUB_REPOSITORY#*/}.tar.gz
+          containerName=artifacts
 
           wget -O $filename $SRC_TARBALL_URI
 
-          # give the firewall time to update
-          sleep 30s
+          containerExists=$(az storage container exists --auth-mode login --account-name $STORAGE_ACCOUNT_NAME --name $containerName --query exists)
+
+          if [ "$containerExists" == "false" ]; then
+            az storage container create \
+              --auth-mode login \
+              --account-name $STORAGE_ACCOUNT_NAME \
+              --name $containerName
+          fi
 
           az storage blob upload \
             --auth-mode login \
