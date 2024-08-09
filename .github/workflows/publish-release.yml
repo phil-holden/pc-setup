@@ -34,6 +34,9 @@ jobs:
             --account-name $STORAGE_ACCOUNT_NAME \
             --ip-address $agentIP \
             --output none
+
+          # give the firewall time to update
+          sleep 30s
         env:
           STORAGE_ACCOUNT_NAME: ${{ vars.STORAGE_ACCOUNT_NAME }}
 
@@ -44,11 +47,7 @@ jobs:
 
           wget -O $filename $SRC_TARBALL_URI
 
-          # give the firewall time to update
-          sleep 30s
-
           containerExists=$(az storage container exists --auth-mode login --account-name $STORAGE_ACCOUNT_NAME --name $containerName --query exists)
-
           if [ "$containerExists" == "false" ]; then
             az storage container create \
               --auth-mode login \
@@ -57,12 +56,17 @@ jobs:
               --output none
           fi
 
-          az storage blob snapshot \
-            --auth-mode login \
-            --account-name $STORAGE_ACCOUNT_NAME \
-            --container $containerName \
-            --name $filename \
-            --output none
+          blobExists=$(az storage blob exists --auth-mode login --account-name $STORAGE_ACCOUNT_NAME --container-name $containerName --name $filename --query exists)
+          if [ "$blobExists" == "false" ]; then
+            # Take a snapshot of the previous version
+            # - not using blob versioning because blob tags are not visible in the portal
+            az storage blob snapshot \
+              --auth-mode login \
+              --account-name $STORAGE_ACCOUNT_NAME \
+              --container $containerName \
+              --name $filename \
+              --output none
+          fi
 
           az storage blob upload \
             --auth-mode login \
