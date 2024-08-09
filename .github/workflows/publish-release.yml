@@ -61,9 +61,11 @@ jobs:
             --file $filename \
             --account-name $STORAGE_ACCOUNT_NAME \
             --container $containerName \
-            --name $filename
+            --name $filename \
+            --tags version=$RELEASE_NAME
         env:
           SRC_TARBALL_URI: ${{ github.event.release.tarball_url }}
+          RELEASE_NAME: ${{ github.event.release.name }}
           STORAGE_ACCOUNT_NAME: ${{ vars.STORAGE_ACCOUNT_NAME }}
 
       - name: Remove AgentIP from Storage Account Firewall
