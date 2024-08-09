@@ -34,9 +34,6 @@ jobs:
             --account-name $STORAGE_ACCOUNT_NAME \
             --ip-address $agentIP \
             --output none
-
-          # give the firewall time to update
-          sleep 30s
         env:
           STORAGE_ACCOUNT_NAME: ${{ vars.STORAGE_ACCOUNT_NAME }}
 
@@ -46,6 +43,9 @@ jobs:
           containerName=release-artifacts
 
           wget -O $filename $SRC_TARBALL_URI
+
+          # give the firewall time to update
+          sleep 30s
 
           containerExists=$(az storage container exists --auth-mode login --account-name $STORAGE_ACCOUNT_NAME --name $containerName --query exists)
 
@@ -57,10 +57,17 @@ jobs:
               --output none
           fi
 
+          az storage blob snapshot \
+            --auth-mode login \
+            --account-name $STORAGE_ACCOUNT_NAME \
+            --container $containerName \
+            --name $filename \
+            --output none
+
           az storage blob upload \
             --auth-mode login \
             --file $filename \
-            --overwrite true \
+            --overwrite True \
             --account-name $STORAGE_ACCOUNT_NAME \
             --container $containerName \
             --name $filename \
