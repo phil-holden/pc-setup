@@ -57,7 +57,7 @@ jobs:
           fi
 
           blobExists=$(az storage blob exists --auth-mode login --account-name $STORAGE_ACCOUNT_NAME --container-name $containerName --name $filename --query exists)
-          if [ "$blobExists" == "false" ]; then
+          if [ "$blobExists" == "true" ]; then
             # Take a snapshot of the previous version
             # - not using blob versioning because blob tags are not visible in the portal
             az storage blob snapshot \
