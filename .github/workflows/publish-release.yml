@@ -43,7 +43,7 @@ jobs:
       - name: "Publish Release"
         run: |
           filename=${GITHUB_REPOSITORY#*/}.tar.gz
-          containerName=release-artifacts
+          containerName=FOO="${STORAGE_CONTAINER_NAME:-release-artifacts}"
 
           wget -O $filename $SRC_TARBALL_URI
 
@@ -81,6 +81,7 @@ jobs:
           SRC_TARBALL_URI: ${{ github.event.release.tarball_url }}
           RELEASE_NAME: ${{ github.event.release.name }}
           STORAGE_ACCOUNT_NAME: ${{ vars.STORAGE_ACCOUNT_NAME }}
+          STORAGE_CONTAINER_NAME: ${{ vars.STORAGE_CONTAINER_NAME }}
 
       - name: Remove AgentIP from Storage Account Firewall
         if: ${{ always() }}
@@ -93,4 +94,3 @@ jobs:
             --output none
         env:
           STORAGE_ACCOUNT_NAME: ${{ vars.STORAGE_ACCOUNT_NAME }}
-
