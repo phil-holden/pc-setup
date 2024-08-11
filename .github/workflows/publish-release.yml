@@ -43,7 +43,7 @@ jobs:
       - name: "Publish Release"
         run: |
           filename=${GITHUB_REPOSITORY#*/}.tar.gz
-          containerName=FOO="${STORAGE_CONTAINER_NAME:-release-artifacts}"
+          containerName="${STORAGE_CONTAINER_NAME:-release-artifacts}"
 
           wget -O $filename $SRC_TARBALL_URI
 
