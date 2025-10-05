@@ -17,3 +17,6 @@ fi
 if [[ ! -f ".oh-my-zsh/custom/alias.zsh" ]]; then
     curl https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/alias.zsh --silent > .oh-my-zsh/custom/alias.zsh
 fi
+
+# Disable Github SSL verification. Not recomended to do this, but required
+echo "git config --global http.sslVerify false" >> ~/.zshrc
