@@ -6,7 +6,7 @@ param (
 )
 
 function Install-Chocolatey {
-    if (-Not $env:ChocolateyInstall) {
+    if (-not $env:ChocolateyInstall) {
         Set-ExecutionPolicy Bypass -Scope Process -Force;
         [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072;
         Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
@@ -20,7 +20,7 @@ function Create-Directory {
         [string]$Path
     )
 
-    if (-Not (Test-Path -Path $Path)) {
+    if (-not (Test-Path -Path $Path)) {
         New-Item -ItemType Directory -Path $Path
     }
 }
@@ -55,7 +55,7 @@ choco upgrade greenshot --yes
 choco upgrade notepadplusplus --yes
 choco upgrade powershell-core --yes
 choco upgrade zoomit --yes
-choco install oh-my-posh
+choco upgrade oh-my-posh --yes
 
 $windowsBuild = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name "ReleaseId").ReleaseId
 
@@ -96,14 +96,13 @@ else {
 choco upgrade azure-cli --yes
 # choco upgrade azure-data-studio --yes
 # choco upgrade azure-functions-core-tools --yes
-choco upgrade azurestorageexplorer --yes
+# choco upgrade azurestorageexplorer --yes
 # choco upgrade docker-desktop --yes
-choco upgrade dotnetcore-sdk --yes
+# choco upgrade dotnetcore-sdk --yes
 # choco upgrade nuget.commandline --yes
-choco upgrade postman --yes
+# choco upgrade postman --yes
 choco upgrade terraform --yes
 choco upgrade vscode --yes
-choco upgrade oh-my-posh --yes
 
 # install vscode extensions
 refreshenv
@@ -111,10 +110,12 @@ code --install-extension hashicorp.terraform
 code --install-extension ms-vscode.powershell
 code --install-extension eamodio.gitlens
 code --install-extension github.github-vscode-theme
-code --install-extension ms-dotnettools.csharp
-code --install-extension msazurermtools.azurerm-vscode-tools
-code --install-extension ms-azure-devops.azure-pipelines
-code --install-extension ms-dotnettools.csharp
-code --install-extension msazurermtools.azurerm-vscode-tools
+# code --install-extension ms-dotnettools.csharp
+# code --install-extension msazurermtools.azurerm-vscode-tools
+# code --install-extension ms-azure-devops.azure-pipelines
+# code --install-extension ms-dotnettools.csharp
+# code --install-extension msazurermtools.azurerm-vscode-tools
 code --install-extension redhat.vscode-yaml
 code --install-extension ms-vscode-remote.remote-wsl
+code --install-extension mcsodbrenner.better-open-editors
+code --install-extension github.copilot-chat

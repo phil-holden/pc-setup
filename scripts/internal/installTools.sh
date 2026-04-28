@@ -14,3 +14,10 @@ echo 'export PATH=$PATH:$HOME/.tfenv/bin' >> ~/.bashrc
 
 tfenv install 1.3.6
 tfenv use 1.3.6
+
+# terraform-docs
+curl -sSLo ./terraform-docs.tar.gz https://terraform-docs.io/dl/v0.22.0/terraform-docs-v0.22.0-linux-amd64.tar.gz
+tar -xzf terraform-docs.tar.gz
+chmod +x terraform-docs
+sudo mv terraform-docs /usr/local/bin/
+rm terraform-docs.tar.gz

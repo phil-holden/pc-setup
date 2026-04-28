@@ -5,23 +5,23 @@
       "type": "newline"
     },
     {
+      "type": "prompt",
       "alignment": "left",
       "segments": [
         {
-          "background": "#95ffa4",
+          "properties": {
+            "cache_duration": "none"
+          },
+          "template": " {{ .HEAD }} {{ .BranchStatus }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Staging.Changed) (.Working.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0}} \uf692 {{ .StashCount }}{{ end }}{{ if gt .WorktreeCount 0}} \uf1bb {{ .WorktreeCount }}{{ end }} ",
           "foreground": "#193549",
           "powerline_symbol": "\ue0b0",
-          "properties": {
-            "template": " {{ .HEAD }} {{ .BranchStatus }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Staging.Changed) (.Working.Changed) }} |{{ end }}{{ if .Staging.Changed }} \uf046 {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0}} \uf692 {{ .StashCount }}{{ end }}{{ if gt .WorktreeCount 0}} \uf1bb {{ .WorktreeCount }}{{ end }} "
-          },
-          "style": "powerline",
-          "type": "git"
+          "background": "#95ffa4",
+          "type": "git",
+          "style": "powerline"
         },
         {
-          "background": "#ffffff",
-          "foreground": "#100e23",
-          "powerline_symbol": "\ue0b0",
           "properties": {
+            "cache_duration": "none",
             "folder_icon": "\uf115",
             "folder_separator_icon": " \ue0b1 ",
             "home_icon": "\uf015",
@@ -32,37 +32,40 @@
               ]
             ],
             "mapped_locations_enabled": true,
-            "style": "agnoster_full",
-            "template": " {{ .Path }} "
+            "style": "agnoster_full"
           },
-          "style": "powerline",
-          "type": "path"
+          "template": " {{ .Path }} ",
+          "foreground": "#100e23",
+          "powerline_symbol": "\ue0b0",
+          "background": "#ffffff",
+          "type": "path",
+          "style": "powerline"
         }
-      ],
-      "type": "prompt"
+      ]
     },
     {
       "type": "newline"
     },
     {
+      "type": "prompt",
       "alignment": "left",
       "segments": [
         {
-          "foreground": "#B48EAD",
-          "foreground_templates": [
-            "{{ if gt .Code 0 }}#BF616A{{ end }}"
-          ],
           "properties": {
             "always_enabled": true,
-            "template": "\u276f "
+            "cache_duration": "none"
           },
+          "template": "❯ ",
+          "foreground": "#B48EAD",
+          "type": "exit",
           "style": "plain",
-          "type": "exit"
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}#BF616A{{ end }}"
+          ]
         }
-      ],
-      "type": "prompt"
+      ]
     }
   ],
-  "final_space": true,
-  "version": 1
+  "version": 3,
+  "final_space": true
 }
