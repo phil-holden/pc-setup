@@ -5,15 +5,15 @@ param (
     $UseLocalConfig
 )
 
-function Install-Chocolatey {
-    if (-not $env:ChocolateyInstall) {
-        Set-ExecutionPolicy Bypass -Scope Process -Force;
-        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072;
-        Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+# function Install-Chocolatey {
+#     if (-not $env:ChocolateyInstall) {
+#         Set-ExecutionPolicy Bypass -Scope Process -Force;
+#         [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072;
+#         Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 
-        refreshenv
-    }
-}
+#         refreshenv
+#     }
+# }
 
 function Create-Directory {
     param(
@@ -25,9 +25,10 @@ function Create-Directory {
     }
 }
 
-Install-Chocolatey
+# Install-Chocolatey
 
-choco upgrade git --yes
+winget install Git.Git
+# choco upgrade git --yes
 if ($UseLocalConfig) {
     Copy-Item -Path "$PSScriptRoot/../config/.gitconfig" -Destination (Join-Path $env:USERPROFILE '.gitconfig')
 }
@@ -44,56 +45,52 @@ else {
     Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/.agnostercustom.omp.json' -OutFile (Join-Path $env:USERPROFILE '.poshthemes/.agnostercustom.omp.json')
 }
 
-# install choco packages
+# winget install
 # - general tools
-choco upgrade 7zip --yes
-choco upgrade cascadiacode --yes
-choco upgrade cascadiacodepl --yes
-choco upgrade cascadia-code-nerd-font --yes
-choco upgrade drawio --yes
-choco upgrade greenshot --yes
-choco upgrade notepadplusplus --yes
-choco upgrade powershell-core --yes
-choco upgrade zoomit --yes
-choco upgrade oh-my-posh --yes
+winget install DEVCOM.JetBrainsMonoNerdFont
+winget install Microsoft.WindowsApp
+winget install 7zip.7zip
+winget install JGraph.Draw
+winget install Microsoft.PowerShell
+winget install Notepad++.Notepad++
+winget install Microsoft.Sysinternals.ZoomIt
+winget install JanDeDobbeleer.OhMyPosh
+
+# choco upgrade 7zip --yes
+# choco upgrade drawio --yes
+# choco upgrade greenshot --yes
+# choco upgrade notepadplusplus --yes
+# choco upgrade powershell-core --yes
+# choco upgrade zoomit --yes
+# choco upgrade oh-my-posh --yes
 
 $windowsBuild = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name "ReleaseId").ReleaseId
 
-# if we're on a 'decent' Windows build we can run WindowsTerminal and WSL2
-if ($windowsBuild -ge 1903) {
-    # - wsl2 (reboot required)
-    Enable-WindowsOptionalFeature -Online -FeatureName $("VirtualMachinePlatform", "Microsoft-Windows-Subsystem-Linux")
-    choco upgrade wsl2 --yes
+# - wsl2 (reboot required)
+Enable-WindowsOptionalFeature -Online -FeatureName $("VirtualMachinePlatform", "Microsoft-Windows-Subsystem-Linux")
+winget install Microsoft.WSL
+# choco upgrade wsl2 --yes
 
-    # - install / configure Windows Terminal
-    choco upgrade microsoft-windows-terminal --yes
+# - install / configure Windows Terminal
+winget ianstall Microsoft.WindowsTerminal
+# choco upgrade microsoft-windows-terminal --yes
 
-    $destination = "$($env:LOCALAPPDATA)/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState"
-    if ($UseLocalConfig) {
-        Copy-Item -Path "$PSScriptRoot/../config/terminalSettings.json" -Destination "$destination/settings.json"
-        Copy-Item -Path "$PSScriptRoot/../config/terminalState.json" -Destination "$destination/state.json"
-    }
-    else {
-        Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/terminalSettings.json' -OutFile "$destination/settings.json"
-        Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/terminalState.json' -OutFile "$destination/state.json"
-    }
+$destination = "$($env:LOCALAPPDATA)/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState"
+if ($UseLocalConfig) {
+    Copy-Item -Path "$PSScriptRoot/../config/terminalSettings.json" -Destination "$destination/settings.json"
+    Copy-Item -Path "$PSScriptRoot/../config/terminalState.json" -Destination "$destination/state.json"
 }
 else {
-    # on an older Windows build we'll drop back to running 'cmder'
-    choco upgrade cmder --yes
-
-    refreshenv
-
-    if ($UseLocalConfig) {
-        Copy-Item -Path "$PSScriptRoot/../config/cmderSettings.xml" -Desintation (Join-Path $env:ConEmuDir 'ConEmu.xml')
-    }
-    else {
-        Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/cmderSettings.xml' -OutFile (Join-Path $env:ConEmuDir 'ConEmu.xml')
-    }
+    Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/terminalSettings.json' -OutFile "$destination/settings.json"
+    Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/phil-holden/pc-setup/main/config/terminalState.json' -OutFile "$destination/state.json"
 }
 
 # - dev tools
-choco upgrade azure-cli --yes
+winget install Microsoft.AzureCLI
+winget install Hashicorp.Terraform
+winget install Microsoft.VisualStudioCode
+
+# choco upgrade azure-cli --yes
 # choco upgrade azure-data-studio --yes
 # choco upgrade azure-functions-core-tools --yes
 # choco upgrade azurestorageexplorer --yes
@@ -101,8 +98,9 @@ choco upgrade azure-cli --yes
 # choco upgrade dotnetcore-sdk --yes
 # choco upgrade nuget.commandline --yes
 # choco upgrade postman --yes
-choco upgrade terraform --yes
-choco upgrade vscode --yes
+# choco upgrade terraform --yes
+# choco upgrade vscode --yes
+
 
 # install vscode extensions
 refreshenv
