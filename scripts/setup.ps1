@@ -27,7 +27,7 @@ function Create-Directory {
 
 # Install-Chocolatey
 
-winget install Git.Git
+winget install Git.Git --source winget
 # choco upgrade git --yes
 if ($UseLocalConfig) {
     Copy-Item -Path "$PSScriptRoot/../config/.gitconfig" -Destination (Join-Path $env:USERPROFILE '.gitconfig')
@@ -47,14 +47,14 @@ else {
 
 # winget install
 # - general tools
-winget install DEVCOM.JetBrainsMonoNerdFont
-winget install Microsoft.WindowsApp
-winget install 7zip.7zip
-winget install JGraph.Draw
-winget install Microsoft.PowerShell
-winget install Notepad++.Notepad++
-winget install Microsoft.Sysinternals.ZoomIt
-winget install JanDeDobbeleer.OhMyPosh
+winget install DEVCOM.JetBrainsMonoNerdFont --source winget
+winget install Microsoft.WindowsApp --source winget
+winget install 7zip.7zip --source winget
+winget install JGraph.Draw --source winget
+winget install Microsoft.PowerShell --source winget
+winget install Notepad++.Notepad++ --source winget
+winget install Microsoft.Sysinternals.ZoomIt --source winget
+winget install JanDeDobbeleer.OhMyPosh --source winget
 
 # choco upgrade 7zip --yes
 # choco upgrade drawio --yes
@@ -68,7 +68,7 @@ $windowsBuild = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\Cur
 
 # - wsl2 (reboot required)
 Enable-WindowsOptionalFeature -Online -FeatureName $("VirtualMachinePlatform", "Microsoft-Windows-Subsystem-Linux")
-winget install Microsoft.WSL
+winget install Microsoft.WSL --source winget
 # choco upgrade wsl2 --yes
 
 # - install / configure Windows Terminal
@@ -86,9 +86,9 @@ else {
 }
 
 # - dev tools
-winget install Microsoft.AzureCLI
-winget install Hashicorp.Terraform
-winget install Microsoft.VisualStudioCode
+winget install Microsoft.AzureCLI --source winget
+winget install Hashicorp.Terraform --source winget
+winget install Microsoft.VisualStudioCode --source winget
 
 # choco upgrade azure-cli --yes
 # choco upgrade azure-data-studio --yes
