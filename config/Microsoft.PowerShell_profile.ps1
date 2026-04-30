@@ -29,7 +29,12 @@ New-Alias -Name g -Value Invoke-Git -Force -Option AllScope
 function Invoke-GitPull {
     & git pull
 }
-New-Alias -Name gp -Value Invoke-GitPull -Force -Option AllScope
+New-Alias -Name gpl -Value Invoke-GitPull -Force -Option AllScope
+
+function Invoke-GitPush {
+    & git push
+}
+New-Alias -Name gpu -Value Invoke-GitPull -Force -Option AllScope
 
 function Invoke-Podman {
     & podman $args
