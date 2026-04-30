@@ -21,3 +21,7 @@ tar -xzf terraform-docs.tar.gz
 chmod +x terraform-docs
 sudo mv terraform-docs /usr/local/bin/
 rm terraform-docs.tar.gz
+
+# git config
+git config --global credential.helper "/mnt/c/Program\ Files/Git/mingw64/bin/git-credential-manager.exe"
+git config --global credential.https://dev.azure.com.useHttpPath true

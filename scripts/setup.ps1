@@ -47,6 +47,7 @@ else {
 
 # winget install
 # - general tools
+winget install Git.GCM --source winget
 winget install DEVCOM.JetBrainsMonoNerdFont --source winget
 winget install Microsoft.WindowsApp --source winget
 winget install 7zip.7zip --source winget
